@@ -26,5 +26,28 @@ const getRequestById=async (req, res) => {
         }
     }
 
+const createBloodRequest = async (req, res) => {
+    try {
+        const { patientName, bloodGroup, units, hospital, city, requester,status } = req.body;
+    
+        if (!mongoose.Types.ObjectId.isValid(requester)) {
+            return res.status(400).send({ message: 'Send valid requester ID' });
+        }
+    
+        const newRequest = await BloodRequestModel.create({
+            patientName,
+            bloodGroup,
+            units,
+            hospital,
+            city,
+            requester,
+            status
+        });
+    
+        res.status(201).json(newRequest);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
-module.exports ={getAllRequests,getRequestById};
+module.exports ={getAllRequests,getRequestById,createBloodRequest};

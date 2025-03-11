@@ -25,6 +25,26 @@ const DonorModel = require('../model/Donor');
             res.status(500).json({ message: error.message });
         }
     }
+    
+const createDonor = async (req, res) => {
+    try {
+        const { user, lastDonationDate, availability } = req.body;
+    
+        if (!mongoose.Types.ObjectId.isValid(user)) {
+            return res.status(400).send({ message: 'Send valid user ID' });
+        }
+    
+        const newDonor = await DonorModel.create({
+            user,
+            lastDonationDate,
+            availability
+        });
+    
+        res.status(201).json(newDonor);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+    
+module.exports = { getAllDonors, getDonorById, createDonor };
 
-
-module.exports = {getAllDonors,getDonorById};
