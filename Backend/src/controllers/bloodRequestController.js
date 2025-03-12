@@ -50,4 +50,28 @@ const createBloodRequest = async (req, res) => {
     }
 };
 
-module.exports ={getAllRequests,getRequestById,createBloodRequest};
+const updateBloodRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { patientName, bloodGroup, units, hospital, city, status } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ message: 'Invalid blood request ID' });
+        }
+
+        const updatedRequest = await BloodRequestModel.findByIdAndUpdate(
+            id,
+            { patientName, bloodGroup, units, hospital, city, status },
+            { new: true }
+        );
+
+        if (!updatedRequest) return res.status(404).json({ message: 'Request not found' });
+
+        res.status(200).json(updatedRequest);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+module.exports ={getAllRequests,getRequestById,createBloodRequest,updateBloodRequest};

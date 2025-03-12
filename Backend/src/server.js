@@ -21,5 +21,5 @@ mongoose.connect(process.env.DB_URL)
 
 const PORT=3000
 app.listen(PORT,async()=>{
-  console.log(`server running on http://localhost:${PORT}`)
+  console.log(`Server running on http://localhost:${PORT}`)
 })

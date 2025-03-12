@@ -45,6 +45,30 @@ const createDonor = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-    
-module.exports = { getAllDonors, getDonorById, createDonor };
+
+const updateDonor = async (req, res) => {
+    const { id } = req.params;
+    const { lastDonationDate, availability } = req.body;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ message: 'Send valid donor ID' });
+        }
+
+        const updatedDonor = await DonorModel.findByIdAndUpdate(
+            id,
+            { lastDonationDate, availability },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedDonor) return res.status(404).json({ message: 'Donor not found' });
+
+        res.status(200).json(updatedDonor);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+module.exports = { getAllDonors, getDonorById, createDonor,updateDonor};
 
