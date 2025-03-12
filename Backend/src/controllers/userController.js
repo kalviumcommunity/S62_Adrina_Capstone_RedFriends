@@ -55,4 +55,27 @@ const createUser = async (req, res) => {
     }
 };
 
-module.exports = {getUserById,getAllUsers,createUser};
+const updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { name, email, password, phone, location, isDonor } = req.body;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid user ID' });
+        }
+
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            id,
+            { name, email, password, phone, location, isDonor },
+            { new: true, runValidators: true }
+        );
+
+        if (!updatedUser) return res.status(404).json({ message: 'User not found' });
+
+        res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+module.exports = {getUserById,getAllUsers,createUser,updateUser};

@@ -49,6 +49,30 @@ const createCampaign = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-    
-module.exports = { getAllCampaigns, getCampaignById, createCampaign };
+
+const updateCampaign = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, date, location, description, number } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ message: 'Invalid campaign ID' });
+        }
+
+        const updatedCampaign = await CampaignModel.findByIdAndUpdate(
+            id,
+            { title, date, location, description, number },
+            { new: true }
+        );
+
+        if (!updatedCampaign) return res.status(404).json({ message: 'Campaign not found' });
+
+        res.status(200).json(updatedCampaign);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+module.exports = { getAllCampaigns, getCampaignById, createCampaign,updateCampaign };
 
