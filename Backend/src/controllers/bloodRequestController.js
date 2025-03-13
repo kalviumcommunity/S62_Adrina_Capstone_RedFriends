@@ -18,6 +18,7 @@ const getRequestById=async (req, res) => {
             }
 
             const request = await BloodRequestModel.findById(id).populate('requester', 'name email');
+            
             if (!request) return res.status(404).json({ message: 'Request not found' });
 
             res.status(200).json(request);

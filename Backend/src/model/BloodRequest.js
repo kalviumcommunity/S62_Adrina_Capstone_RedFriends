@@ -8,6 +8,7 @@ const bloodRequestSchema = new mongoose.Schema({
     city: { type: String, required: true },
     date: { type: Date, default: Date.now },
     requester: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    
     status: { type: String, enum: ['Pending', 'Accepted', 'Completed'], default: 'Pending' },
 }, { timestamps: true });
 

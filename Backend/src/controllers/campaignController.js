@@ -18,6 +18,7 @@ const getCampaignById=async (req, res) => {
         }
 
         const campaign = await CampaignModel.findById(id).populate('organizer', 'name email');
+        
         if (!campaign) return res.status(404).json({ message: 'Campaign not found' });
 
         res.status(200).json(campaign);
