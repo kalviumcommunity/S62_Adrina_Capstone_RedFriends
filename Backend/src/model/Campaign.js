@@ -5,6 +5,7 @@ const campaignSchema = new mongoose.Schema({
     date: { type: Date, required: true },
     location: { type: String, required: true },
     organizer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    
     description: { type: String },
     number:{type:Number,required:true}
 }, { timestamps: true });

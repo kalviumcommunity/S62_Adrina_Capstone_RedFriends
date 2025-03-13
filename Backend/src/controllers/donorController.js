@@ -18,6 +18,7 @@ const DonorModel = require('../model/Donor');
             }
 
             const donor = await DonorModel.findById(id).populate('user', 'name email bloodGroup phone');
+            
             if (!donor) return res.status(404).json({ message: 'Donor not found' });
 
             res.status(200).json(donor);
