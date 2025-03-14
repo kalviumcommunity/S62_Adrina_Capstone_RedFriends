@@ -18,22 +18,23 @@ const getRequestById=async (req, res) => {
             }
 
             const request = await BloodRequestModel.findById(id).populate('requester', 'name email');
-            
+
             if (!request) return res.status(404).json({ message: 'Request not found' });
 
             res.status(200).json(request);
         } catch (error) {
             res.status(500).json({ message: error.message });
-        }
+        }    
     }
 
 const createBloodRequest = async (req, res) => {
     try {
-        const { patientName, bloodGroup, units, hospital, city, requester,status } = req.body;
-    
-        if (!mongoose.Types.ObjectId.isValid(requester)) {
-            return res.status(400).send({ message: 'Send valid requester ID' });
-        }
+        const { patientName, bloodGroup, units, hospital, city, status,requester } = req.body;
+        
+        // if (!mongoose.Types.ObjectId.isValid(requester)) {
+        //     return res.status(400).send({ message: 'Send valid requester ID' });
+        // }
+        // const requester=req.userId
     
         const newRequest = await BloodRequestModel.create({
             patientName,
