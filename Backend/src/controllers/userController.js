@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const UserModel = require('../model/User');
-
+require('dotenv').config()
+const jwt=require('jsonwebtoken')
+const bcrypt=require('bcryptjs')
+const cookieParser=require('cookie-parser')
     const getAllUsers=async (req, res) => {
         try {
             const users = await UserModel.find();
@@ -26,7 +29,7 @@ const UserModel = require('../model/User');
         }
     }
     
-const createUser = async (req, res) => {
+const signup = async (req, res) => {
     try {
         const { name, email, password, phone, bloodGroup, location, isDonor } = req.body;
     
@@ -36,11 +39,11 @@ const createUser = async (req, res) => {
             return res.status(400).json({ message: 'Email already in use, try loggin in' });
         }
     
-            
+        const hashedPassword= await bcrypt.hash(password,10);    
         const newUser = new UserModel({
             name,
             email,
-            password,
+            password:hashedPassword,
             phone,
             bloodGroup,
             location,
@@ -54,6 +57,30 @@ const createUser = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
+
+
+const login = async(req,res)=>{
+    try{
+
+        const {email,password}= req.body;
+        const user = await UserModel.findOne({email});
+        if(!user){
+            return res.status(400).json({message:'Invalid email or password'})
+        }
+    
+        const isMatch= await bcrypt.compare(password,user.password);
+        if(!isMatch){
+            return res.status(400).json({message:'Invalid email or password'})
+        }
+        const token = jwt.sign({userId: user._id,email:user.email},process.env.JWT_SECRETKEY,{expiresIn:'1h'})
+        res.status(200).cookie('token',token).json({ message: 'Login successful', token });
+    }
+    catch (error) {
+        res.status(500).json({ message: error.message });
+}
+}
+
+
 
 const updateUser = async (req, res) => {
     const { id } = req.params;
@@ -78,4 +105,4 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = {getUserById,getAllUsers,createUser,updateUser};
+module.exports = {getUserById,getAllUsers,signup,login,updateUser};
