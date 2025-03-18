@@ -73,6 +73,7 @@ const login = async(req,res)=>{
         if(!isMatch){
             return res.status(400).json({message:'Invalid email or password'})
         }
+        
         const token = jwt.sign({userId: user._id,email:user.email},process.env.JWT_SECRETKEY,{expiresIn:'1h'})
 
         res.status(200).cookie('token',token).json({ message: 'Login successful', token });
