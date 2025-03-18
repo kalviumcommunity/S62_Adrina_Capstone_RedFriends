@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const UserModel = require('../model/User');
 require('dotenv').config()
 const jwt=require('jsonwebtoken')
+
 const bcrypt=require('bcryptjs')
 const cookieParser=require('cookie-parser')
     const getAllUsers=async (req, res) => {
@@ -73,6 +74,7 @@ const login = async(req,res)=>{
             return res.status(400).json({message:'Invalid email or password'})
         }
         const token = jwt.sign({userId: user._id,email:user.email},process.env.JWT_SECRETKEY,{expiresIn:'1h'})
+
         res.status(200).cookie('token',token).json({ message: 'Login successful', token });
     }
     catch (error) {
