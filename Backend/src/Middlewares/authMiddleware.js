@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-
 if (process.env.NODE_ENV !== "PRODUCTION"){
     require('dotenv').config({
         path:"../config/.env"
@@ -13,7 +12,9 @@ const authMiddleware = (req, res, next) => {
     }
 
     try {
+
         const verifyy = jwt.verify(token, process.env.JWT_SECRETKEY);
+        
         req.user = verifyy;  
         req.userId=verifyy.id;
         next();
