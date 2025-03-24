@@ -1,0 +1,22 @@
+meta {
+  name: Update campaign
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8000/api/campaigns/update-campaign/67e0f6c7357687d4efb8af38
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "title": "Blood Donation Drive in Bengaluru",
+    "date": "2025-03-21T10:00:00.000Z",
+    "location": "PRS, Nagercoil",
+    "organizer": "67ce70de2a3caa9aa8a7ddbe",
+    "description": "Donate Blood ! Save Life !!!",
+    "number":9003456132
+  }
+}

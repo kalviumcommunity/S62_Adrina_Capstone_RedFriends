@@ -21,7 +21,7 @@ app.use('/api/requests', bloodRequestRoutes);
         .then(()=>console.log("Database connected"))
         .catch((err)=>console.log("Error connecting",err))
 
-const PORT=3000
+const PORT=8000
 app.listen(PORT,async()=>{
   console.log(`Server running on http://localhost:${PORT}`)
 })

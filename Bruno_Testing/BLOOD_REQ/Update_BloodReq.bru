@@ -1,0 +1,21 @@
+meta {
+  name: Update_BloodReq
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:8000/api/requests/update-bloodReq/67e0f28c96b6000e19f1e791
+  body: json
+  auth: inherit
+}
+
+body:json {
+    { "patientName": "Asher",
+      "bloodGroup": "AB+",
+      "units": 1,
+      "hospital": "PRS Hospital, Ngl",
+     "requester":"67ce70962a3caa9aa8a7ddbc",
+      "city": "Trivandrum"
+    }
+}
