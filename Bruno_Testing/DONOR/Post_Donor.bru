@@ -1,0 +1,19 @@
+meta {
+  name: Post_Donor
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:5000/api/donors/create-donor
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "user": "67ce70962a3caa9aa8a7ddbc",
+      "lastDonationDate": "2024-02-15T00:00:00.000Z",
+      "availability": true
+    }
+}

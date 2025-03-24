@@ -8,7 +8,7 @@ const authMiddleware = (req, res, next) => {
     const {token}= req.query;
     // console.log(token);
     if (!token) {
-        return res.status(401).json({ message: 'Access denied' });
+        return res.status(401).json({ message: 'Access denied ' });
     }
 
     try {
